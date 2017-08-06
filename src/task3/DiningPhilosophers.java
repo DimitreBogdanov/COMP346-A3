@@ -6,29 +6,28 @@ package task3;
  *
  * @author Serguei A. Mokhov, mokhov@cs.concordia.ca
  */
-public class DiningPhilosophers
-{
-	/*
-	 * ------------
+public class DiningPhilosophers {
+    /*
+     * ------------
 	 * Data members
 	 * ------------
 	 */
 
-	/**
-	 * This default may be overridden from the command line
-	 */
-	public static final int DEFAULT_NUMBER_OF_PHILOSOPHERS = 4;
+    /**
+     * This default may be overridden from the command line
+     */
+    public static final int DEFAULT_NUMBER_OF_PHILOSOPHERS = 4;
 
-	/**
-	 * Dining "iterations" per philosopher thread
-	 * while they are socializing there
-	 */
-	public static final int DINING_STEPS = 10;
+    /**
+     * Dining "iterations" per philosopher thread
+     * while they are socializing there
+     */
+    public static final int DINING_STEPS = 10;
 
-	/**
-	 * Our shared monitor for the philosphers to consult
-	 */
-	public static Monitor soMonitor = null;
+    /**
+     * Our shared monitor for the philosphers to consult
+     */
+    public static Monitor soMonitor = null;
 
 	/*
 	 * -------
@@ -36,65 +35,68 @@ public class DiningPhilosophers
 	 * -------
 	 */
 
-	/**
-	 * Main system starts up right here
-	 */
-	public static void main(String[] argv)
-	{
-		try
-		{
-			/*
-			 * TODO:
-			 * Should be settable from the command line
-			 * or the default if no arguments supplied.
-			 */
-			int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+    /**
+     * Main system starts up right here
+     */
+    public static void main(String[] argv) {
+        try {
 
-			// Make the monitor aware of how many philosophers there are
-			soMonitor = new Monitor(iPhilosophers);
+            int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+            try {
+                int num = Integer.parseInt(argv[0]);
+                if (num <= 0) {
+                    System.out.println(String.format("Invalid number: %d, must be above 0", num));
+                } else {
+                    iPhilosophers = num;
+                }
+            } catch (NumberFormatException nfe) {
+                System.out.println(String.format("%s is not a positive decimal integer", argv[0]));
+            } catch (IndexOutOfBoundsException ioob) {
+                //do nothing just use the default already set
+            }
 
-			// Space for all the philosophers
-			Philosopher aoPhilosophers[] = new Philosopher[iPhilosophers];
+            // Make the monitor aware of how many philosophers there are
+            soMonitor = new Monitor(iPhilosophers);
 
-			// Let 'em sit down
-			for(int j = 0; j < iPhilosophers; j++)
-			{
-				aoPhilosophers[j] = new Philosopher();
-				aoPhilosophers[j].start();
-			}
+            // Space for all the philosophers
+            Philosopher aoPhilosophers[] = new Philosopher[iPhilosophers];
 
-			System.out.println
-			(
-				iPhilosophers +
-				" philosopher(s) came in for a dinner."
-			);
+            // Let 'em sit down
+            for (int j = 0; j < iPhilosophers; j++) {
+                aoPhilosophers[j] = new Philosopher();
+                aoPhilosophers[j].start();
+            }
 
-			// Main waits for all its children to die...
-			// I mean, philosophers to finish their dinner.
-			for(int j = 0; j < iPhilosophers; j++)
-				aoPhilosophers[j].join();
+            System.out.println
+                    (
+                            iPhilosophers +
+                                    " philosopher(s) came in for a dinner."
+                    );
 
-			System.out.println("All philosophers have left. System terminates normally.");
-		}
-		catch(InterruptedException e)
-		{
-			System.err.println("main():");
-			reportException(e);
-			System.exit(1);
-		}
-	} // main()
+            // Main waits for all its children to die...
+            // I mean, philosophers to finish their dinner.
+            for (int j = 0; j < iPhilosophers; j++)
+                aoPhilosophers[j].join();
 
-	/**
-	 * Outputs exception information to STDERR
-	 * @param poException Exception object to dump to STDERR
-	 */
-	public static void reportException(Exception poException)
-	{
-		System.err.println("Caught exception : " + poException.getClass().getName());
-		System.err.println("Message          : " + poException.getMessage());
-		System.err.println("Stack Trace      : ");
-		poException.printStackTrace(System.err);
-	}
+            System.out.println("All philosophers have left. System terminates normally.");
+        } catch (InterruptedException e) {
+            System.err.println("main():");
+            reportException(e);
+            System.exit(1);
+        }
+    } // main()
+
+    /**
+     * Outputs exception information to STDERR
+     *
+     * @param poException Exception object to dump to STDERR
+     */
+    public static void reportException(Exception poException) {
+        System.err.println("Caught exception : " + poException.getClass().getName());
+        System.err.println("Message          : " + poException.getMessage());
+        System.err.println("Stack Trace      : ");
+        poException.printStackTrace(System.err);
+    }
 }
 
 // EOF

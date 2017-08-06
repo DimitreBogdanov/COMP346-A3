@@ -93,19 +93,6 @@ public class Philosopher extends BaseThread {
 
             think();
 
-
-//			/*
-//             * TODO:
-//			 * A decision is made at random whether this particular
-//			 * philosopher is about to say something terribly useful.
-//			 */
-//            if (true) {
-//                // Some monitor ops down here...
-//                talk();
-//                // ...
-//            }
-
-            //TODO idk if that's good enough for task 1
             try {
                 DiningPhilosophers.soMonitor.requestTalk(getTID());
             } catch (InterruptedException e) {
