@@ -28,7 +28,6 @@ public class Monitor {
      * Constructor
      */
     public Monitor(int piNumberOfPhilosophers) {
-        // TODO: set appropriate number of chopsticks based on the # of philosophers
         this.philosopherCount = piNumberOfPhilosophers;
         philosophers = new int[philosopherCount];
         for (int i = 0; i < philosopherCount; i++) {

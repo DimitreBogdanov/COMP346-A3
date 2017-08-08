@@ -80,26 +80,26 @@ public class Philosopher extends BaseThread {
      * No, this is not the act of running, just the overridden Thread.run()
      */
     public void run() {
-        for (int i = 0; i < task3.DiningPhilosophers.DINING_STEPS; i++) {
+        for (int i = 0; i < DiningPhilosophers.DINING_STEPS; i++) {
             try {
-                task3.DiningPhilosophers.soMonitor.pickUp(getTID());
+                DiningPhilosophers.soMonitor.pickUp(getTID());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
             eat();
 
-            task3.DiningPhilosophers.soMonitor.putDown(getTID());
+            DiningPhilosophers.soMonitor.putDown(getTID());
 
             think();
 
             try {
-                task3.DiningPhilosophers.soMonitor.requestTalk(getTID());
+                DiningPhilosophers.soMonitor.requestTalk(getTID());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             talk();
-            task3.DiningPhilosophers.soMonitor.endTalk(getTID());
+            DiningPhilosophers.soMonitor.endTalk(getTID());
 
             yield();
         }
